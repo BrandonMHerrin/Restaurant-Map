@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+  id         String   @id @default(cuid())
+  name        String
+  description String?
+  address     String?
+  phone       String?
+  website     String?
+  cuisineType CuisineType
+  restaurantType RestaurantType
+  position    Json // This can store latitude and longitude as a JSON object, e.g., { "lat": 40.7128, "lng": -74.0060 }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// This model represents the primary cuisine type of a restaurant.
+enum CuisineType {
+  ITALIAN
+  CHINESE
+  MEXICAN
+  AMERICAN
+  INDIAN
+  JAPANESE
+  FRENCH
+  GREEK
+  SPANISH
+  THAI
+}
+
+// This model represents the type of restaurant, such as fast food, fine dining, etc. 
+enum RestaurantType {
+  FAST_FOOD
+  CASUAL_DINING
+  FINE_DINING
+  CAFE
+  BUFFET
+  FOOD_TRUCK
+  BAKERY
+  PUB
+  BAR
+  PIZZERIA
+}
